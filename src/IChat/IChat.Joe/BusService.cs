@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 
-namespace IChat.Don
+namespace IChat.Joe
 {
     public class BusService : IHostedService
     {

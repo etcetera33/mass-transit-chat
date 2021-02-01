@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GreenPipes;
 using IChat.Don.Consumers;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace IChat.Don
 {
@@ -28,9 +30,6 @@ namespace IChat.Don
                 {
                     services.AddMassTransit(cfg =>
                     {
-                        cfg.AddConsumer<PublishMessageConsumer>();
-                        cfg.AddConsumer<SendMessageConsumer>();
-
                         cfg.AddBus(ConfigureBus);
                     });
 
@@ -46,12 +45,11 @@ namespace IChat.Don
             {
                 await builder.RunConsoleAsync();
                 
-                // todo: add appropriate logger
-                //Log.Logger.Information("Started notofication service");
+                Log.Logger.Information("Started Don service");
             }
             catch (Exception exception)
             {
-                //Log.Logger.Error(exception.Message);
+                Log.Logger.Error($"An exception is caught: {exception.Message}");
             }
         }
 
@@ -64,6 +62,17 @@ namespace IChat.Don
                 cfg.ReceiveEndpoint("don-queue", e =>
                 {
                     e.Consumer<PublishMessageConsumer>();
+                    e.Consumer<SendMessageConsumer>();
+                    
+                    e.UseMessageRetry(r =>
+                    {
+                        r.Interval(3, TimeSpan.FromMilliseconds(100));
+                    });
+                });
+                
+                // generate queues as many as U want
+                cfg.ReceiveEndpoint("don-backup-queue", e =>
+                {
                     e.Consumer<SendMessageConsumer>();
                 });
             });

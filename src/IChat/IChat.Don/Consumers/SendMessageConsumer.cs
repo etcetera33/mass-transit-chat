@@ -9,9 +9,7 @@ namespace IChat.Don.Consumers
     {
         public async Task Consume(ConsumeContext<ISendMessage> context)
         {
-            await Task.Delay(100);
-            
-            Console.WriteLine($"Sent message received: {context.Message.Message}");
+            await Task.Run(() => Console.WriteLine($"Sent message received: {context.Message.Message}"));
         }
     }
 }

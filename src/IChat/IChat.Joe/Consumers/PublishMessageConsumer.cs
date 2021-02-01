@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using IChat.Contracts;
 using MassTransit;
 
-namespace IChat.Don.Consumers
+namespace IChat.Joe.Consumers
 {
-    public class PublishMessageConsumer : IConsumer<IMessagePublished>
+    public class PublishMessageConsumer: IConsumer<IMessagePublished>
     {
         public async Task Consume(ConsumeContext<IMessagePublished> context)
         {

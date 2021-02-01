@@ -5,4 +5,12 @@
         <RootNamespace>IChat.Common</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="2.10.0" />
+      <PackageReference Include="MassTransit" Version="7.1.3-develop.3212" />
+      <PackageReference Include="MassTransit.ActiveMQ" Version="7.1.2" />
+      <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.1.2" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.3-develop.3212" />
+    </ItemGroup>
+
 </Project>
